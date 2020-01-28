@@ -50,7 +50,7 @@ class SendQueueMails extends Command
             $emails = MailQueue::all();
            
             if (!$emails) {
-				$this->info("No posts exist");
+				$this->info("No emails in queue");
                 return;
             }
             foreach ($emails as $email) {
