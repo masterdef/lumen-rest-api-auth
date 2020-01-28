@@ -28,11 +28,22 @@ class UserController extends Controller
     public function registration(Request $request) {
 		$this->validateRegister($request);
 
-        User::createUser([
+        $email = User::createUser([
             'email' => $request->input('email'),
             'password' => $request->input('password'),
         ]);
 
-        return $this->respond(['confirmation' => 'sent'], 200);
+        return $this->respond(['confirmation' => 'sent', 
+            'email' => $email->email, 
+            'code' => $email->activate_code], 200);
+    }
+
+    public function activate(Request $request) {
+        $user = User::activate($request->input('code'));
+        var_dump($user->email, $user->id, $user->api_token);
+    }
+
+    public function auth(Request $request) {
+        var_dump('auth-request');
     }
 }

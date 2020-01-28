@@ -22,16 +22,19 @@ class User extends Model
     }
 
     static function createUser($props = array()) {
-        MailQueue::create(['email' => $user.email, 
-            'activate_code' => $user.api_token]);
-
         $user = self::create([
             'email' => $props['email'],
             'password' => self::hash($props['password']),
             'api_token' => self::hash(time())
         ]);
 
+        $email = MailQueue::create(['email' => $user->email, 
+            'activate_code' => $user->api_token]);
 
-        return $user;
+        return $email;
+    }
+
+    static function activate($code) {
+        
     }
 }
