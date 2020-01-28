@@ -11,7 +11,7 @@
 namespace App\Console\Commands;
 
 
-use App\Model\User;
+use App\Models\MailQueue;
 
 use Exception;
 use Illuminate\Console\Command;
@@ -47,17 +47,17 @@ class SendQueueMails extends Command
     public function handle()
     {
         try {
-            $posts = User::all();
-var_dump($posts);exit;
+            $emails = MailQueue::all();
            
-            if (!$posts) {
-            $this->info("No posts exist");
+            if (!$emails) {
+				$this->info("No posts exist");
                 return;
             }
-            foreach ($posts as $post) {
-                $post->delete();
+            foreach ($emails as $email) {
+                $email->delete();
+				break;
             }
-            $this->info("All posts have been deleted");
+            $this->info("Email sent {$email->email}:{$email->activate_code}}");
         } catch (Exception $e) {
             $this->error("An error occurred");
         }
