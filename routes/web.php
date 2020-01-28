@@ -20,4 +20,8 @@ $router->group(['prefix' => 'api/v1'], function() use ($router) {
     $router->get('activate', 'UserController@activate'); 
     $router->post('auth', 'UserController@auth'); 
     $router->get('get', 'UserController@get'); 
+
+    $router->group(['middleware' => 'auth'], function () use ($router) {
+        $router->get('info', 'UserController@get'); 
+    });
 });
