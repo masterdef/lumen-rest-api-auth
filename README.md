@@ -2,7 +2,7 @@
 
 Authentication REST service
 
-Use Lumen framework
+Use Lumen / Laravel framework
 
 Use MongoDB
 
