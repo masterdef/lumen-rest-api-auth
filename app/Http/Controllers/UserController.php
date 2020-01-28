@@ -40,10 +40,21 @@ class UserController extends Controller
 
     public function activate(Request $request) {
         $user = User::activate($request->input('code'));
-        var_dump($user->email, $user->id, $user->api_token);
+
+        return $this->respond(['activated' => $user ? ($user->is_active == 1) : false], 200);
     }
 
     public function auth(Request $request) {
-        var_dump('auth-request');
+        $user = User::auth($request->input('email'), $request->input('password'));
+
+        if ($user) {
+            return $this->respond(['api_token' => $user->api_token], 200);
+        } else {
+            return $this->respond(['msg' => 'auth failed'], 400);
+        }
+    }
+
+    public function get(Request $request) {
+        return User::getByEmail($request->input('email'));
     }
 }
